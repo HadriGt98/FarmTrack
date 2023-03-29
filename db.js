@@ -2,8 +2,9 @@
 
 const Sequelize = require('sequelize')
 const sequelize = new Sequelize(
-    farm_track,
-    root, {
+    'farm_track',
+    'test',
+    'test', {
     dialect: 'mysql',
     host: 'localhost'
     }
