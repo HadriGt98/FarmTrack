@@ -9,13 +9,13 @@ let vehicleController = require('./controllers/vehicleController');
 let usageController = require('./controllers/usageController');
 
 // user routes
-// router.post('/signup', userController.createUser);
+router.post('/signup', userController.createUser);
 
 // vehicle routes
-// router.get('/vehicles', vehicleController.getVehicles);
-// router.post('/vehicle', vehicleController.createVehicle);
-// router.get('/vehicle/:vehicle_id', vehicleController.getVehicle);
-// router.put('/vehicle/:vehicle_id', vehicleController.updateVehicle);
+router.get('/vehicles', vehicleController.getVehicles);
+router.post('/vehicle', vehicleController.createVehicle);
+router.get('/vehicle/:vehicle_id', vehicleController.getVehicle);
+router.put('/vehicle/:vehicle_id', vehicleController.updateVehicle);
 // router.delete('/vehicle/:vehicle_id', vehicleController.deleteVehicle);
 // router.get('/vehicle/:vehicle_id/stats', vehicleController.getVehicleStats);
 // router.get('/vehicle/search/:model_make', vehicleController.searchVehicle);

@@ -8,7 +8,8 @@ const Usage = sequelize.define('usage', {
         type: Sequelize.INTEGER,
         primaryKey: true,
         autoIncrement: true,
-        allowNull: false
+        allowNull: false,
+        unique: true
     },
     vehicle_id: { type: Sequelize.INTEGER, allowNull: false },
     user_id: { type: Sequelize.INTEGER, allowNull: false },

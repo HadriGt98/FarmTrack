@@ -8,10 +8,11 @@ const Vehicle = sequelize.define('vehicle', {
         type: Sequelize.INTEGER,
         primaryKey: true,
         autoIncrement: true,
-        allowNull: false
+        allowNull: false,
+        unique: true
     },
     model_make: { type: Sequelize.STRING, allowNull: false },
-    nickname: { type: Sequelize.STRING },
+    nickname: { type: Sequelize.STRING, unique: true },
     type: { type: Sequelize.STRING, allowNull: false }
 });
 

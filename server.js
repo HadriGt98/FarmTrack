@@ -13,7 +13,7 @@ app.use(express.json()); // for parsing application/json
 
 // Routes
 let routes = require('./routes'); // routes
-app.use('/', routes); // use routes
+app.use('/api', routes); // use routes (avec api comme préfixe)
 app.use(function (req, res, next) {
     res.status(404).json({"error": "path not found"});
 }); // Manage bad route
