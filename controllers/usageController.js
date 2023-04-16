@@ -34,13 +34,20 @@ exports.createUsage = async function (req, res) {
 
 // Fetch a usage (to test)
 exports.getUsage = async function (req, res) {
-    Usage.findByPk(req.params.usage_id)
-        .then(data => {
-            res.json(data);
-        })
-        .catch(error => res.status(500).json({
-            message: err.message || "Internal server error"
-        }))
+    try {
+        const usageId = Number(req.params.usage_id);
+        if (isNaN(usageId)) {
+          return res.status(400).json({ message: 'Invalid usage ID' });
+        }
+        const usage = await Usage.findByPk(usageId);
+        if (!usage) {
+          return res.status(404).json({ message: 'Usage not found' });
+        }
+        res.json(usage);
+      } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: 'Something went wrong...' });
+      }
 };
 
 // Update a usage (to test)
@@ -66,26 +73,38 @@ exports.updateUsage = async function (req, res) {
 
 // Delete a usage (to test)
 exports.deleteUsage = async function (req, res) {
-    await Usage.destroy({
-        where: { usage_id: req.params.usage_id }
-    })
-        .then(data => {
-            res.json(data);
-        })
-        .catch(error => res.status(500).json({
-            message: err.message || "Internal server error"
-        }))
+    try {
+        const usageId = Number(req.params.usage_id);
+        if (isNaN(usageId)) {
+            return res.status(400).json({ message: 'Invalid usage ID' });
+        }
+        const usage = await Usage.findByPk(usageId);
+        if (usage) {
+            await usage.destroy();
+            res.json({ message: 'Usage deleted successfully' });
+        } else {
+            res.status(404).json({ error: 'Usage not found' });
+        }
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: 'Something went wrong...' });
+    }
 };
 
 // Fetch all usages for a vehicle (to test)
 exports.getUsages = async function (req, res) {
-    Usage.findAll({
-        where: { vehicle_id: req.params.vehicle_id }
-    })
-        .then(data => {
-            res.json(data);
-        })
-        .catch(error => res.status(500).json({
-            message: err.message || "Internal server error"
-        }))
+    try {
+        const vehicleId = Number(req.params.vehicle_id);
+        if (isNaN(vehicleId)) {
+            return res.status(400).json({ message: 'Invalid vehicle ID' });
+        } 
+        const usage = await Usage.findAll({ where: { vehicle_id: req.params.vehicle_id } });
+        if (!usage) {
+            return res.status(404).json({ message: 'No usages found for the vehicle' });
+        }
+        res.json(usage);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: 'Something went wrong...' });
+    }
 };  

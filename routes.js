@@ -16,9 +16,9 @@ router.get('/vehicles', vehicleController.getVehicles);
 router.post('/vehicle', vehicleController.createVehicle);
 router.get('/vehicle/:vehicle_id', vehicleController.getVehicle);
 router.put('/vehicle/:vehicle_id', vehicleController.updateVehicle);
-// router.delete('/vehicle/:vehicle_id', vehicleController.deleteVehicle);
+router.delete('/vehicle/:vehicle_id', vehicleController.deleteVehicle);
 // router.get('/vehicle/:vehicle_id/stats', vehicleController.getVehicleStats);
-// router.get('/vehicle/search/:model_make', vehicleController.searchVehicle);
+router.get('/vehicle/search/:model_make', vehicleController.searchVehicle);
 
 // usage routes
 // router.get('/usages/:vehicle_id', usageController.getUsages);
