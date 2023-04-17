@@ -17,14 +17,14 @@ router.post('/vehicle', vehicleController.createVehicle);
 router.get('/vehicle/:vehicle_id', vehicleController.getVehicle);
 router.put('/vehicle/:vehicle_id', vehicleController.updateVehicle);
 router.delete('/vehicle/:vehicle_id', vehicleController.deleteVehicle);
-// router.get('/vehicle/:vehicle_id/stats', vehicleController.getVehicleStats);
-router.get('/vehicle/search/:model_make', vehicleController.searchVehicle);
+router.get('/stats/:vehicle_id', vehicleController.getVehicleStats);
+router.get('/search/vehicles', vehicleController.searchVehicles);
 
 // usage routes
-// router.get('/usages/:vehicle_id', usageController.getUsages);
-// router.post('/usage', usageController.createUsage);
-// router.get('/usage/:usage_id', usageController.getUsage);
-// router.put('/usage/:usage_id', usageController.updateUsage);
-// router.delete('/usage/:usage_id', usageController.deleteUsage);
+router.get('/usages/:vehicle_id', usageController.getUsages);
+router.post('/usage', usageController.createUsage);
+router.get('/usage/:usage_id', usageController.getUsage);
+router.put('/usage/:usage_id', usageController.updateUsage);
+router.delete('/usage/:usage_id', usageController.deleteUsage);
 
 module.exports = router;

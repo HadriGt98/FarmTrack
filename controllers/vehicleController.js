@@ -7,7 +7,7 @@ const Sequelize = require('sequelize');
 // Add a vehicle (all good)
 exports.createVehicle = async function (req, res) {
     // Validate request
-    if (!req.body) {
+    if (Object.keys(req.body).length === 0) {
         res.status(400).json({
             message: "Content can not be empty!"
         });
@@ -56,7 +56,7 @@ exports.getVehicle = async function (req, res) {
       }
     };
 
-// Update a vehicle (almost good, does not return updated vehicle)
+// Update a vehicle (all good)
 exports.updateVehicle = async function (req, res) {
     const vehicleId = Number(req.params.vehicle_id);
     if (isNaN(vehicleId)) {
@@ -67,22 +67,20 @@ exports.updateVehicle = async function (req, res) {
         if (!vehicle) {
             return res.status(404).json({ message: 'Vehicle not found' });
         }
-        if (!req.body) {
-            return res.status(400).json({
+        if (Object.keys(req.body).length === 0) {
+            res.status(400).json({
                 message: "Content can not be empty!"
             });
-        }
-        const [numRows, updatedVehicles] = await Vehicle.update({
+        };
+        await Vehicle.update({
             model_make: req.body.model_make, 
             nickname: req.body.nickname, 
             type: req.body.type},
-            { where: { vehicle_id: req.params.vehicle_id }, returning: true });
-        const updatedVehicle = updatedVehicles[0];
-        // console.log(updatedVehicle)
-        // console.log(numRows)
+            { where: { vehicle_id: req.params.vehicle_id } });
+        const updatedVehicle = await Vehicle.findByPk(vehicleId);
         res.json(updatedVehicle);
-    } catch(error) {
-        console.error(error);
+    } catch (err) {
+        console.error(err);
         res.status(500).json({ message: 'Something went wrong...' });
     }
 };
@@ -107,28 +105,54 @@ exports.deleteVehicle = async function (req, res) {
     }
 };
 
-// Search for a vehicle (to test)
-exports.searchVehicle = async function (req, res) {
-    const query = req.query.q || '';
-    const vehicles = await Vehicle.findAll({ where: { model_make: { [Sequelize.Op.like]: `%${query}%` }}
-    });
-    res.json(vehicles);
-};
-
-// Fetch stats for a vehicle (to test once Usage controller is done)
-exports.getVehicleStats = async function (req, res) {
-    const vehicleId = Number(req.params.vehicle_id);
-    const stats = await Usage.findAll({
-        attributes: [
-        [Sequelize.fn('SUM', Sequelize.col('duration')), 'total_hours'],
-        [Sequelize.fn('SUM', Sequelize.col('fuel_amount')), 'total_fuel_cost'],
-        [Sequelize.fn('SUM', Sequelize.col('maintenance_cost')), 'total_maintenance_cost']
-        ],
+// Search for a vehicle (all good BUT case sensitive)
+exports.searchVehicles = async function (req, res) {
+    try {
+      const model_make = req.query.model_make;
+      if (!model_make) {
+        return res.status(400).json({ message: 'Model make parameter is missing' });
+      }
+      const Op = Sequelize.Op;
+      const vehicles = await Vehicle.findAll({
         where: {
-        vehicle_id: vehicleId
+          model_make: {
+            [Op.like]: `%${model_make}%`
+          }
         }
-    });
-    res.json(stats[0]);
+      });
+      res.json(vehicles);
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ message: 'Something went wrong...' });
+    }
+  };
+
+// Fetch stats for a vehicle (almost good, returns string instead of int for total_minutes)
+exports.getVehicleStats = async function (req, res) {
+    // check if vehicle id exists
+    const vehicleId = Number(req.params.vehicle_id);
+        if (isNaN(vehicleId)) {
+          return res.status(400).json({ message: 'Invalid vehicle ID' });
+        }
+    try {
+        // check if vehicle exists
+        const vehicle = await Vehicle.findByPk(vehicleId);
+        if (!vehicle) {
+          return res.status(404).json({ message: 'Vehicle not found' });
+        }
+        const stats = await Usage.findAll({
+        attributes: [
+            [Sequelize.fn('COALESCE', Sequelize.fn('SUM', Sequelize.col('duration')), 0), 'total_minutes'],
+            [Sequelize.fn('COALESCE', Sequelize.fn('SUM', Sequelize.col('fuel_amount')), 0), 'total_fuel_cost'],
+            [Sequelize.fn('COALESCE', Sequelize.fn('SUM', Sequelize.col('maintenance_cost')), 0), 'total_maintenance_cost']
+            ],
+        where: { vehicle_id: vehicleId }
+        });
+        res.json(stats[0]);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: 'Something went wrong...' });
+    }
 };
 
     
