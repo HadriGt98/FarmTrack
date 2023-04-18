@@ -1,18 +1,17 @@
 // Charge models
 const Usage = require('../models/usageModel')
-const User = require('../models/userModel')
+/*const User = require('../models/userModel')*/
 const Vehicle = require('../models/vehicleModel')
 
 
 // Add a usage (all good)
 exports.createUsage = async function (req, res) {
-    // Validate request
+    // Validate request (check that body is not empty)
     if (Object.keys(req.body).length === 0) {
-      res.status(400).json({ message: "Content can not be empty!" });
+      res.status(400).json({ message: "Content cannot be empty!" });
     }
-  
     try {
-      // check if vehicle id exists
+      // check if vehicle id exists 
       const vehicleId = Number(req.body.vehicle_id);
       if (isNaN(vehicleId)) {
         return res.status(400).json({ message: 'Invalid vehicle ID' });
@@ -72,7 +71,7 @@ exports.updateUsage = async function (req, res) {
       // Validate request
       console.log(req.body)
       if (Object.keys(req.body).length === 0) {
-        return res.status(400).json({ message: "Content can not be empty!" });
+        return res.status(400).json({ message: "Content cannot be empty!" });
       }
   
       // check if usage id is a number
@@ -102,9 +101,7 @@ exports.updateUsage = async function (req, res) {
       return res.json(usage);
     } catch (error) {
       console.error(error);
-      return res.status(500).json({
-        message: "Internal server error"
-      });
+      return res.status(500).json({ message: 'Something went wrong...' });
     }
   };
 

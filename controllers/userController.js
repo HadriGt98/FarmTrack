@@ -5,9 +5,9 @@ const User = db.User
 // Create and Save a new User (Okay, just hash the password)
 exports.createUser = async function(req, res) {
     // Validate request
-    if (!req.body) {
+    if (Object.keys(req.body).length === 0) {
         res.status(400).json({
-            message: "Content can not be empty!"
+            message: "Content cannot be empty!"
         });
     };
     // Create a User (non-persistent)
@@ -15,7 +15,7 @@ exports.createUser = async function(req, res) {
         username: req.body.username,
         first_name: req.body.first_name,
         last_name: req.body.last_name,
-        password: req.body.password // Still to do : hash this shit
+        password: req.body.password 
     });
     // Save User in the database
     await user.save()
@@ -24,7 +24,9 @@ exports.createUser = async function(req, res) {
         })
         .catch(err => {
             res.status(500).json({
-                message: err.message || "Internal server error"
+                message: "Sorry, something went wrong..."
             });
         });
 };
+
+
