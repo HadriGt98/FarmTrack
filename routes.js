@@ -25,8 +25,8 @@ router.get('/search/vehicles', auth.isAuth, vehicleController.searchVehicles); /
 // usage routes
 router.get('/usages/:vehicle_id', auth.isAuth, usageController.getUsages); // show usages for vehicle
 router.post('/usage', auth.isAuth, usageController.createUsage); // create usage
-router.get('/usage/:usage_id', auth.isAuth, usageController.getUsage); // show usage -?admin?
-router.put('/usage/:usage_id', auth.isAuth, usageController.updateUsage); // update usage - ?admin?
+router.get('/usage/:usage_id', auth.isAuth, usageController.getUsage); // show usage - ?admin? (needed only for put to have a front end)
+router.put('/usage/:usage_id', auth.isAuth, usageController.updateUsage); // update usage - ?admin? (probably not needed)
 router.delete('/usage/:usage_id', auth.isAuth, auth.isAdmin, usageController.deleteUsage); // delete usage - admin
 
 module.exports = router;

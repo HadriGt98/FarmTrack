@@ -2,13 +2,11 @@
 const db = require('../models/index')
 const User = db.User
 
-// Create and Save a new User (Okay, just hash the password)
+// Create and Save a new User (All good)
 exports.createUser = async function(req, res) {
     // Validate request
-    if (Object.keys(req.body).length === 0) {
-        res.status(400).json({
-            message: "Content cannot be empty!"
-        });
+    if (Object.keys(req.body).length === 0) { // checks if body is not empty
+        res.status(400).json({ message: "Content cannot be empty!" });
     };
     // Create a User (non-persistent)
     let user = User.build({
@@ -20,12 +18,10 @@ exports.createUser = async function(req, res) {
     // Save User in the database
     await user.save()
         .then(data => {
-            res.json(data);
+            res.json(data); // return json of user
         })
         .catch(err => {
-            res.status(500).json({
-                message: "Sorry, something went wrong..."
-            });
+            res.status(500).json({ message: "Sorry, something went wrong..." }); 
         });
 };
 
