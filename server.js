@@ -4,6 +4,8 @@
 var express = require('express'); // import express framework
 var app = express(); // initialize express app
 
+const port = process.env.NODE_PORT | 3000
+
 // database ORM
 const sequelize = require('./db.js'); // import database ORM
 sequelize.sync(); // sync database
@@ -19,5 +21,5 @@ app.use(function (req, res, next) {
 }); // Manage bad route
 
 // Start server
-app.listen(8080);
-console.log('8080 is the magic port');
+app.listen(port);
+console.log(port, ' is the magic port');
