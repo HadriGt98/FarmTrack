@@ -2,8 +2,11 @@
 // const bodyParser = require('body-parser');
 // const session = require('express-session');
 var express = require('express'); // import express framework
+var cors = require('cors'); // import cors framework
 var app = express(); // initialize express app
 
+// cors
+app.use(cors()); 
 const port = process.env.NODE_PORT | 3000
 
 // database ORM
