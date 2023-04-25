@@ -13,7 +13,7 @@ exports.loginUser = async function (req, res) {
         }
         // else, create token
         const jwtExpirySeconds = 300
-        let payload = { id: data.user_id, is_admin: data.is_admin }; // is_admin is a needed to test if user is admin (see isAdmin)
+        let payload = { user_id: data.user_id, username:data.username, is_admin: data.is_admin }; // is_admin is a needed to test if user is admin (see isAdmin)
         let token = jwt.sign(payload, jwtKey, {
                     algorithm: "HS256",
                     expiresIn: jwtExpirySeconds,

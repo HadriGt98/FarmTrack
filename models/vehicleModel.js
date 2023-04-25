@@ -11,9 +11,9 @@ const Vehicle = sequelize.define('vehicle', {
         allowNull: false,
         unique: true
     },
-    model_make: { type: Sequelize.STRING, allowNull: false },
+    model_make: { type: Sequelize.STRING, allowNull: false, validate: { notEmpty: true} },
     nickname: { type: Sequelize.STRING, unique: true },
-    type: { type: Sequelize.STRING, allowNull: false }
+    type: { type: Sequelize.STRING, allowNull: false, validate: { notEmpty: true}  }
 });
 
 module.exports = Vehicle;

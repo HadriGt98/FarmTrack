@@ -11,10 +11,10 @@ const User = sequelize.define('user', {
         allowNull: false,
         unique: true
     },
-    username: { type: Sequelize.STRING, allowNull: false, unique: true},
+    username: { type: Sequelize.STRING, allowNull: false, unique: true, validate: { notEmpty: true} },
     first_name: { type: Sequelize.STRING },
     last_name: { type: Sequelize.STRING },
-    password: { type: Sequelize.STRING, allowNull: false },
+    password: { type: Sequelize.STRING, allowNull: false, validate: { notEmpty: true}  },
     is_admin: { type: Sequelize.BOOLEAN, allowNull: false, defaultValue: false }
 });
 
