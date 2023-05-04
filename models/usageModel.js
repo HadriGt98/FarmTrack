@@ -13,10 +13,10 @@ const Usage = sequelize.define('usage', {
     },
     vehicle_id: { type: Sequelize.INTEGER, allowNull: false },
     user_id: { type: Sequelize.INTEGER, allowNull: false },
-    duration: { type: Sequelize.INTEGER, allowNull: false },
+    duration: { type: Sequelize.INTEGER, allowNull: false, validate: { min: 0 } },
     date: { type: Sequelize.DATEONLY, allowNull: false },
-    fuel_amount: { type: Sequelize.DOUBLE, allowNull: false },
-    maintenance_cost: { type: Sequelize.DOUBLE, allowNull: false },
+    fuel_amount: { type: Sequelize.DOUBLE, allowNull: false, validate: { min: 0 } },
+    maintenance_cost: { type: Sequelize.DOUBLE, allowNull: false, validate: { min: 0 } },
     note: { type: Sequelize.STRING }
 });
 

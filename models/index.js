@@ -17,6 +17,6 @@ db.Usage = require('./usageModel.js');
 db.User.hasMany(db.Usage, { foreignKey: 'user_id' });
 db.Usage.belongsTo(db.User, { foreignKey: 'user_id' });
 db.Usage.belongsTo(db.Vehicle, { foreignKey: 'vehicle_id' });
-db.Vehicle.hasMany(db.Usage, { foreignKey: 'vehicle_id' });
+db.Vehicle.hasMany(db.Usage, { onDelete: 'CASCADE', hooks: true, foreignKey: 'vehicle_id' });
 
 module.exports = db;
