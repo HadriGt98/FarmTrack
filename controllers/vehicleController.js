@@ -117,7 +117,11 @@ exports.searchVehicles = async function (req, res) {
         const Op = Sequelize.Op;
         // search for vehicles in which model_make contains the search string
         const vehicles = await Vehicle.findAll({
-            where: { model_make: { [Op.like]: `%${model_make}%` } }
+            where: { [Op.or]: [
+                { model_make: { [Op.like]: `%${model_make}%` } },
+                { nickname: { [Op.like]: `%${model_make}%` } }
+                ]
+            }
         });
         if (vehicles.length === 0) { // if no vehicles are found
             return res.status(404).json({ message: "No result" });

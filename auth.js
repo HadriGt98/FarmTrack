@@ -12,13 +12,13 @@ exports.loginUser = async function (req, res) {
             return res.status(404).json({ message: "User not found: wrong username or password" });
         }
         // else, create token
-        const jwtExpirySeconds = 300
+        const jwtExpirySeconds = 3200
         let payload = { user_id: data.user_id, username:data.username, is_admin: data.is_admin }; // is_admin is a needed to test if user is admin (see isAdmin)
         let token = jwt.sign(payload, jwtKey, {
                     algorithm: "HS256",
                     expiresIn: jwtExpirySeconds,
                 })
-        res.json({ "token": token, "maxAge": jwtExpirySeconds * 1000 }); // return token
+        res.json({ "token": token, "maxAge": jwtExpirySeconds }); // return token
     }).catch(err => {
         res.status(500).json({ message: "Sorry, something went wrong..." });
     });
