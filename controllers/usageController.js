@@ -19,7 +19,7 @@ exports.createUsage = async function (req, res) {
       // check if vehicle exists
       const vehicle = await Vehicle.findOne({ where: { vehicle_id: vehicleId } });
       if (!vehicle) {
-        return res.status(400).json({ message: "Vehicle ID does not exist" });
+        return res.status(404).json({ message: "Vehicle ID not found" });
       }
       // create a usage (non-persistent)
       let usage = Usage.build({
@@ -34,9 +34,9 @@ exports.createUsage = async function (req, res) {
       // save usage to database
       usage.save()
         .then(data => {
-          res.json(data); // return json with the new usage
+          res.status(200).json(data); // return json with the new usage
         })
-        .catch(error => res.status(500).json({ message: "Internal server error" })); // probably a duplicate usage
+        .catch(error => res.status(500).json({ message: "Something went wrong..." })); // probably a duplicate usage
     } catch (err) {
       console.error(err);
       res.status(500).json({ message: "Something went wrong..." });
@@ -91,7 +91,7 @@ exports.updateUsage = async function (req, res) {
         maintenance_cost: req.body.maintenance_cost,
         note: req.body.note
       });
-      return res.json(usage); // return updated usage
+      return res.status(200).json(usage); // return updated usage
     } catch (error) {
       return res.status(500).json({ message: "Something went wrong..." });
     }
@@ -109,7 +109,7 @@ exports.deleteUsage = async function (req, res) {
         const usage = await Usage.findByPk(usageId);
         if (usage) {
             await usage.destroy(); // delete usage
-            res.json({ message: "Usage deleted successfully" });
+            res.status(204).json({ message: "Usage deleted successfully" });
         } else {
             res.status(404).json({ error: "Usage not found" });
         }
@@ -129,7 +129,7 @@ exports.getUsages = async function (req, res) {
         // check if vehicle exists
         const vehicle = await Vehicle.findOne({ where: { vehicle_id: vehicleId } });
         if (!vehicle) {
-            return res.status(400).json({ message: "Vehicle ID does not exist" });
+            return res.status(404).json({ message: "Vehicle ID not found" });
         }
         // get usages
         const usage = await Usage.findAll({ where: { vehicle_id: req.params.vehicle_id } });

@@ -18,18 +18,18 @@ exports.createVehicle = async function (req, res) {
     // save vehicle to database
     vehicle.save()
     .then(newVehicle => {
-        res.json(newVehicle); // return json with the new vehicle
+        res.status(200).json(newVehicle); // return json with the new vehicle
     })
-    .catch(error => res.status(500).json({ message: "Sorry, something went wrong..." }))
+    .catch(error => res.status(500).json({ message: "Something went wrong..." }))
 }
 
 // Fetch all vehicles (all good)
 exports.getVehicles = async function (req, res) {
     Vehicle.findAll()
     .then(data => {
-        res.json(data); // return json with all vehicles
+        res.status(200).json(data); // return json with all vehicles
     })
-    .catch(error => res.status(500).json({ message: "Sorry, something went wrong..." }))
+    .catch(error => res.status(500).json({ message: "Something went wrong..." }))
 };
 
 // Fetch a single vehicle (all good)
@@ -45,10 +45,10 @@ exports.getVehicle = async function (req, res) {
         if (!vehicle) { // if vehicle does not exist
           return res.status(404).json({ message: "Vehicle not found" });
         }
-        res.json(vehicle); // return json with the vehicle
+        res.status(200).json(vehicle); // return json with the vehicle
       } catch (err) {
         console.error(err);
-        res.status(500).json({ message: "Sorry, something went wrong..." });
+        res.status(500).json({ message: "Something went wrong..." });
       }
     };
 
@@ -77,10 +77,10 @@ exports.updateVehicle = async function (req, res) {
             { where: { vehicle_id: req.params.vehicle_id } });
         // return updated vehicle
         const updatedVehicle = await Vehicle.findByPk(vehicleId);
-        res.json(updatedVehicle);
+        res.status(200).json(updatedVehicle);
     } catch (err) {
         console.error(err);
-        res.status(500).json({ message: "Sorry, something went wrong..." });
+        res.status(500).json({ message: "Something went wrong..." });
     }
 };
 
@@ -96,7 +96,7 @@ exports.deleteVehicle = async function (req, res) {
         const vehicle = await Vehicle.findByPk(vehicleId);
         if (vehicle) {
             await vehicle.destroy(); // delete vehicle
-            res.json({ message: "Vehicle deleted successfully" });
+            res.status(204).json({ message: "Vehicle deleted successfully" });
         } else {
             res.status(404).json({ error: "Vehicle not found" });
         }
@@ -112,7 +112,7 @@ exports.searchVehicles = async function (req, res) {
         // check if model_make parameter is missing
         const model_make = req.query.model_make;
         if (!model_make) {
-            return res.status(400).json({ message: "model_make parameter is missing" });
+            return res.status(400).json({ message: "search parameter is missing" });
         }
         const Op = Sequelize.Op;
         // search for vehicles in which model_make contains the search string
@@ -155,7 +155,7 @@ exports.getVehicleStats = async function (req, res) {
             ],
         where: { vehicle_id: vehicleId }
         });
-        res.json(stats[0]); // return json with the stats
+        res.status(200).json(stats[0]); // return json with the stats
     } catch (err) {
         console.error(err);
         res.status(500).json({ message: "Sorry, something went wrong..." });

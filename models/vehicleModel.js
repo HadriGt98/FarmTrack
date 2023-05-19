@@ -12,7 +12,7 @@ const Vehicle = sequelize.define('vehicle', {
         unique: true
     },
     model_make: { type: Sequelize.STRING, allowNull: false, validate: { notEmpty: true} },
-    nickname: { type: Sequelize.STRING, unique: true },
+    nickname: { type: Sequelize.STRING, unique: true, allowNull: false, validate: { notEmpty: true}  },
     type: { type: Sequelize.STRING, allowNull: false, validate: { notEmpty: true}  }
 });
 

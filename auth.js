@@ -18,7 +18,7 @@ exports.loginUser = async function (req, res) {
                     algorithm: "HS256",
                     expiresIn: jwtExpirySeconds,
                 })
-        res.json({ "token": token, "maxAge": jwtExpirySeconds }); // return token
+        res.satus(200).json({ "token": token, "maxAge": jwtExpirySeconds }); // return token
     }).catch(err => {
         res.status(500).json({ message: "Sorry, something went wrong..." });
     });
@@ -26,9 +26,10 @@ exports.loginUser = async function (req, res) {
 
 // Middleware to check if user is logged in
 exports.isAuth = function (req, res, next) {
+    // console.log(req.headers.authorization)
     if (typeof req.headers.authorization === "undefined") {
         // no autorization defined so user is not logged in
-        res.status(401).json({ message: "Not Authorized" });
+        res.status(401).json({ message: "Not Authorized p'tit boulet" });
     } else {
         // retrieve token from header
         let token = req.headers.authorization.split(" ")[0];
@@ -37,7 +38,7 @@ exports.isAuth = function (req, res, next) {
         // check if token is valid 
         jwt.verify(token, jwtKey, (err, user) => {
             if (err) {  
-                res.status(401).json({ message: "Not Authorized" });
+                res.status(401).json({ message: "Not Authorized p'tit con" });
             } else {
                 req.user = user; // set user in request
                 // console.log(user);
