@@ -18,7 +18,7 @@ exports.createVehicle = async function (req, res) {
     // save vehicle to database
     vehicle.save()
     .then(newVehicle => {
-        res.status(200).json(newVehicle); // return json with the new vehicle
+        res.json(newVehicle); // return json with the new vehicle
     })
     .catch(error => res.status(500).json({ message: "Something went wrong..." }))
 }
@@ -27,7 +27,7 @@ exports.createVehicle = async function (req, res) {
 exports.getVehicles = async function (req, res) {
     Vehicle.findAll()
     .then(data => {
-        res.status(200).json(data); // return json with all vehicles
+        res.json(data); // return json with all vehicles
     })
     .catch(error => res.status(500).json({ message: "Something went wrong..." }))
 };
@@ -45,7 +45,7 @@ exports.getVehicle = async function (req, res) {
         if (!vehicle) { // if vehicle does not exist
           return res.status(404).json({ message: "Vehicle not found" });
         }
-        res.status(200).json(vehicle); // return json with the vehicle
+        res.json(vehicle); // return json with the vehicle
       } catch (err) {
         console.error(err);
         res.status(500).json({ message: "Something went wrong..." });
@@ -77,7 +77,7 @@ exports.updateVehicle = async function (req, res) {
             { where: { vehicle_id: req.params.vehicle_id } });
         // return updated vehicle
         const updatedVehicle = await Vehicle.findByPk(vehicleId);
-        res.status(200).json(updatedVehicle);
+        res.json(updatedVehicle);
     } catch (err) {
         console.error(err);
         res.status(500).json({ message: "Something went wrong..." });
@@ -155,7 +155,7 @@ exports.getVehicleStats = async function (req, res) {
             ],
         where: { vehicle_id: vehicleId }
         });
-        res.status(200).json(stats[0]); // return json with the stats
+        res.json(stats[0]); // return json with the stats
     } catch (err) {
         console.error(err);
         res.status(500).json({ message: "Sorry, something went wrong..." });

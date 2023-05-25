@@ -18,7 +18,7 @@ exports.createUser = async function(req, res) {
     // Save User in the database
     await user.save()
         .then(data => {
-            res.status(200).json(data); // return json of user
+            res.json(data); // return json of user
         })
         .catch(err => {
             res.status(500).json({ message: "Sorry, something went wrong..." }); 

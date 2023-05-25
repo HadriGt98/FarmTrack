@@ -18,9 +18,9 @@ exports.loginUser = async function (req, res) {
                     algorithm: "HS256",
                     expiresIn: jwtExpirySeconds,
                 })
-        res.satus(200).json({ "token": token, "maxAge": jwtExpirySeconds }); // return token
+        res.json({ "token": token, "maxAge": jwtExpirySeconds }); // return token
     }).catch(err => {
-        res.status(500).json({ message: "Sorry, something went wrong..." });
+        res.status(500).json({ message: "Sorry, something went wrong... here" });
     });
 };
 
