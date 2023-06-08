@@ -109,7 +109,7 @@ exports.deleteUsage = async function (req, res) {
         const usage = await Usage.findByPk(usageId);
         if (usage) {
             await usage.destroy(); // delete usage
-            res.status(204).json({ message: "Usage deleted successfully" });
+            res.status(200).json({ message: "Usage deleted successfully" });
         } else {
             res.status(404).json({ error: "Usage not found" });
         }

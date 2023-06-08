@@ -96,7 +96,7 @@ exports.deleteVehicle = async function (req, res) {
         const vehicle = await Vehicle.findByPk(vehicleId);
         if (vehicle) {
             await vehicle.destroy(); // delete vehicle
-            res.status(204).json({ message: "Vehicle deleted successfully" });
+            res.status(200).json({ message: "Vehicle deleted successfully" });
         } else {
             res.status(404).json({ error: "Vehicle not found" });
         }
