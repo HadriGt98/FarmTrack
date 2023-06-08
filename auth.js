@@ -18,9 +18,9 @@ exports.loginUser = async function (req, res) {
                     algorithm: "HS256",
                     expiresIn: jwtExpirySeconds,
                 })
-        res.json({ "token": token, "maxAge": jwtExpirySeconds }); // return token
+        res.status(200).json({ "token": token, "maxAge": jwtExpirySeconds }); // return token
     }).catch(err => {
-        res.status(500).json({ message: "Sorry, something went wrong... here" });
+        res.status(500).json({ message: "Sorry, something went wrong..." });
     });
 };
 
@@ -29,7 +29,7 @@ exports.isAuth = function (req, res, next) {
     // console.log(req.headers.authorization)
     if (typeof req.headers.authorization === "undefined") {
         // no autorization defined so user is not logged in
-        res.status(401).json({ message: "Not Authorized p'tit boulet" });
+        res.status(401).json({ message: "Access unauthorized, please connect" });
     } else {
         // retrieve token from header
         let token = req.headers.authorization.split(" ")[0];
@@ -38,7 +38,7 @@ exports.isAuth = function (req, res, next) {
         // check if token is valid 
         jwt.verify(token, jwtKey, (err, user) => {
             if (err) {  
-                res.status(401).json({ message: "Not Authorized p'tit con" });
+                res.status(401).json({ message: "Access unauthorized" });
             } else {
                 req.user = user; // set user in request
                 // console.log(user);

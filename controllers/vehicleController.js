@@ -112,7 +112,7 @@ exports.searchVehicles = async function (req, res) {
         // check if model_make parameter is missing
         const model_make = req.query.model_make;
         if (!model_make) {
-            return res.status(400).json({ message: "search parameter is missing" });
+            return res.status(400).json({ message: "Search parameter is missing" });
         }
         const Op = Sequelize.Op;
         // search for vehicles in which model_make contains the search string

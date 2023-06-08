@@ -34,7 +34,7 @@ exports.createUsage = async function (req, res) {
       // save usage to database
       usage.save()
         .then(data => {
-          res.json(data); // return json with the new usage
+          res.status(200).json(data); // return json with the new usage
         })
         .catch(error => res.status(500).json({ message: "Something went wrong..." })); // probably a duplicate usage
     } catch (err) {
@@ -91,7 +91,7 @@ exports.updateUsage = async function (req, res) {
         maintenance_cost: req.body.maintenance_cost,
         note: req.body.note
       });
-      return res.json(usage); // return updated usage
+      return res.status(200).json(usage); // return updated usage
     } catch (error) {
       return res.status(500).json({ message: "Something went wrong..." });
     }
